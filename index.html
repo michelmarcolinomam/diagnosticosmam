@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnósticos Estratégicos — MAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0d0d0d;
+  --white: #ffffff;
+  --bg: #ffffff;
+  --bg2: #f9f9f7;
+  --green: #c8e6b0;
+  --green-dark: #7ab356;
+  --green-light: #f0f7ea;
+  --border: #e4e4de;
+  --text-muted: #6b6b6b;
+  --gray-light: #d0d0cc;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Montserrat',sans-serif; background:var(--bg); color:var(--black); overflow-x:hidden; }
+
+/* NAV */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:18px 48px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(255,255,255,0.92); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border); transition:box-shadow 0.3s;
+}
+nav svg { height:28px; width:auto; }
+.nav-link { font-size:12px; font-weight:600; color:var(--text-muted); text-decoration:none; transition:color 0.2s; }
+.nav-link:hover { color:var(--black); }
+
+/* HERO */
+.hero {
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  padding:120px 24px 80px; position:relative; overflow:hidden; background:var(--black);
+}
+.hero::before { content:''; position:absolute; width:800px; height:800px; background:radial-gradient(circle, rgba(200,230,176,0.12) 0%, transparent 65%); top:-200px; right:-200px; border-radius:50%; pointer-events:none; }
+.hero::after { content:''; position:absolute; width:500px; height:500px; background:radial-gradient(circle, rgba(200,230,176,0.07) 0%, transparent 65%); bottom:-100px; left:-100px; border-radius:50%; pointer-events:none; }
+.hero-dots { position:absolute; inset:0; background-image:radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px); background-size:36px 36px; pointer-events:none; }
+
+.hero-inner { max-width:860px; text-align:center; position:relative; z-index:2; }
+
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(200,230,176,0.1); border:1px solid rgba(200,230,176,0.2);
+  color:var(--green); font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+  padding:7px 18px; border-radius:100px; margin-bottom:28px;
+  animation:fadeUp 0.6s ease both;
+}
+.badge-dot { width:6px; height:6px; background:var(--green-dark); border-radius:50%; animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+
+.hero-title {
+  font-family:'Montserrat',sans-serif; font-size:clamp(40px,6.5vw,80px); font-weight:900;
+  line-height:1.0; letter-spacing:-3px; color:var(--white); margin-bottom:12px;
+  animation:fadeUp 0.6s 0.1s ease both;
+}
+.hero-title em { font-family:'Lora',serif; font-style:italic; font-weight:400; color:var(--green); letter-spacing:-2px; display:block; }
+
+.hero-sub {
+  font-size:clamp(14px,2vw,17px); color:rgba(255,255,255,0.45); line-height:1.75;
+  max-width:520px; margin:20px auto 48px; font-weight:400;
+  animation:fadeUp 0.6s 0.2s ease both;
+}
+
+.hero-scroll { animation:fadeUp 0.6s 0.3s ease both; display:flex; justify-content:center; }
+.hero-scroll a {
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  color:rgba(255,255,255,0.3); text-decoration:none; font-size:11px; font-weight:600;
+  letter-spacing:2px; text-transform:uppercase; transition:color 0.3s;
+}
+.hero-scroll a:hover { color:var(--green); }
+.scroll-icon { width:40px; height:40px; border:1px solid rgba(255,255,255,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; animation:bounce 2s infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+/* INTRO */
+.intro-section { padding:100px 24px; background:var(--bg2); border-bottom:1px solid var(--border); }
+.intro-wrap { max-width:960px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.intro-eyebrow { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--green-dark); margin-bottom:16px; }
+.intro-title { font-family:'Montserrat',sans-serif; font-size:clamp(26px,3.5vw,38px); font-weight:900; letter-spacing:-1.2px; line-height:1.1; color:var(--black); margin-bottom:20px; }
+.intro-title em { font-family:'Lora',serif; font-style:italic; font-weight:400; color:var(--green-dark); }
+.intro-text { font-size:14px; color:var(--text-muted); line-height:1.85; font-weight:400; }
+.intro-stats { display:flex; flex-direction:column; gap:20px; }
+.intro-stat { background:var(--white); border:1.5px solid var(--border); border-radius:16px; padding:24px 28px; transition:all 0.25s; }
+.intro-stat:hover { border-color:var(--green-dark); transform:translateX(6px); box-shadow:0 8px 32px rgba(0,0,0,0.05); }
+.stat-value { font-family:'Montserrat',sans-serif; font-size:32px; font-weight:900; color:var(--green-dark); letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
+.stat-label { font-size:12px; color:var(--text-muted); font-weight:500; }
+
+/* SEÇÃO HEADER */
+.section-header { text-align:center; margin-bottom:64px; }
+.section-eyebrow { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--green-dark); margin-bottom:14px; }
+.section-title { font-family:'Montserrat',sans-serif; font-size:clamp(28px,4vw,44px); font-weight:900; letter-spacing:-1.5px; line-height:1.1; color:var(--black); margin-bottom:16px; }
+.section-title em { font-family:'Lora',serif; font-style:italic; font-weight:400; color:var(--green-dark); }
+.section-sub { font-size:15px; color:var(--text-muted); line-height:1.75; max-width:480px; margin:0 auto; font-weight:400; }
+
+/* DIAGNÓSTICOS */
+.diag-section { padding:100px 24px; background:var(--white); }
+.diag-wrap { max-width:960px; margin:0 auto; }
+.diag-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.diag-card:last-child { grid-column: span 2; flex-direction: row; align-items: center; gap: 32px; }
+.diag-card:last-child .diag-name { font-size: 28px; white-space: nowrap; }
+.diag-card:last-child .diag-desc { margin-bottom: 0; }
+.diag-card:last-child .diag-tags { margin-bottom: 0; flex-wrap: nowrap; }
+.diag-card:last-child .diag-footer { border-top: none; padding-top: 0; flex-shrink: 0; margin-top: 0; }
+.diag-card:last-child .diag-icon { margin-bottom: 0; flex-shrink: 0; }
+.diag-card:last-child .diag-num { margin-bottom: 0; flex-shrink: 0; position: absolute; top: 28px; left: 36px; }
+
+.diag-card {
+  background:var(--white); border:1.5px solid var(--border); border-radius:24px;
+  padding:40px 36px; text-decoration:none; color:var(--black);
+  display:flex; flex-direction:column; position:relative; overflow:hidden;
+  transition:all 0.35s ease;
+}
+.diag-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--border); transition:background 0.35s; }
+.diag-card:hover { border-color:var(--black); transform:translateY(-6px); box-shadow:0 24px 64px rgba(0,0,0,0.1); }
+.diag-card:hover::before { background:var(--green-dark); }
+
+.diag-card.featured { background:var(--black); border-color:var(--black); color:var(--white); }
+.diag-card.featured::before { background:var(--green-dark); }
+.diag-card.featured:hover { border-color:var(--green-dark); box-shadow:0 24px 64px rgba(0,0,0,0.25); }
+
+.card-glow { position:absolute; width:300px; height:300px; background:radial-gradient(circle, rgba(200,230,176,0.12) 0%, transparent 65%); top:-80px; right:-80px; pointer-events:none; border-radius:50%; }
+
+.diag-num { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gray-light); margin-bottom:20px; }
+.diag-card.featured .diag-num { color:rgba(255,255,255,0.2); }
+
+.diag-icon { font-size:28px; margin-bottom:20px; display:block; }
+
+.diag-name { font-family:'Montserrat',sans-serif; font-size:24px; font-weight:900; letter-spacing:-0.8px; line-height:1.15; margin-bottom:12px; color:var(--black); }
+.diag-card.featured .diag-name { color:var(--white); }
+
+.diag-desc { font-size:13px; color:var(--text-muted); line-height:1.75; font-weight:400; flex:1; margin-bottom:24px; }
+.diag-card.featured .diag-desc { color:rgba(255,255,255,0.45); }
+
+.diag-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:24px; }
+.diag-tag { font-size:10px; font-weight:600; padding:4px 10px; border-radius:100px; background:var(--green-light); color:var(--green-dark); border:1px solid var(--green); }
+.diag-card.featured .diag-tag { background:rgba(200,230,176,0.1); color:var(--green); border-color:rgba(200,230,176,0.2); }
+
+.diag-footer { display:flex; align-items:center; justify-content:space-between; padding-top:20px; border-top:1px solid var(--border); margin-top:auto; }
+.diag-card.featured .diag-footer { border-color:rgba(255,255,255,0.08); }
+
+.diag-cta { font-size:13px; font-weight:700; color:var(--black); }
+.diag-card.featured .diag-cta { color:var(--green); }
+
+.diag-arrow { width:36px; height:36px; border-radius:50%; background:var(--bg2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:14px; color:var(--text-muted); transition:all 0.25s; flex-shrink:0; }
+.diag-card:hover .diag-arrow { background:var(--black); border-color:var(--black); color:var(--white); transform:rotate(-45deg); }
+.diag-card.featured .diag-arrow { background:rgba(200,230,176,0.1); border-color:rgba(200,230,176,0.2); color:var(--green); }
+.diag-card.featured:hover .diag-arrow { background:var(--green-dark); border-color:var(--green-dark); color:var(--black); }
+
+/* COMO FUNCIONA */
+.how-section { padding:100px 24px; background:var(--black); position:relative; overflow:hidden; }
+.how-section::before { content:''; position:absolute; width:700px; height:700px; background:radial-gradient(circle, rgba(200,230,176,0.06) 0%, transparent 65%); top:-200px; right:-200px; pointer-events:none; border-radius:50%; }
+.how-wrap { max-width:960px; margin:0 auto; }
+
+.how-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:64px; position:relative; }
+.how-steps::before { content:''; position:absolute; top:32px; left:10%; width:80%; height:1px; background:linear-gradient(90deg, transparent, rgba(200,230,176,0.15), rgba(200,230,176,0.15), transparent); pointer-events:none; }
+.how-step { text-align:center; position:relative; }
+.how-num { width:64px; height:64px; border-radius:50%; background:rgba(200,230,176,0.08); border:1.5px solid rgba(200,230,176,0.2); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-family:'Montserrat',sans-serif; font-size:20px; font-weight:900; color:var(--green); position:relative; z-index:1; }
+.how-title { font-size:14px; font-weight:700; color:var(--white); margin-bottom:8px; letter-spacing:-0.3px; }
+.how-desc { font-size:12px; color:rgba(255,255,255,0.35); line-height:1.65; font-weight:400; }
+
+/* CTA FINAL */
+.cta-section { padding:100px 24px; background:var(--bg2); border-top:1px solid var(--border); text-align:center; }
+.cta-wrap { max-width:580px; margin:0 auto; }
+.cta-title { font-family:'Montserrat',sans-serif; font-size:clamp(28px,4vw,44px); font-weight:900; letter-spacing:-1.5px; line-height:1.1; color:var(--black); margin-bottom:16px; }
+.cta-title em { font-family:'Lora',serif; font-style:italic; font-weight:400; color:var(--green-dark); }
+.cta-sub { font-size:15px; color:var(--text-muted); line-height:1.75; margin-bottom:36px; }
+.btn-cta { display:inline-flex; align-items:center; gap:10px; background:var(--black); color:var(--white); font-family:'Montserrat',sans-serif; font-size:15px; font-weight:800; padding:20px 48px; border:none; border-radius:100px; cursor:pointer; text-decoration:none; transition:all 0.3s; letter-spacing:-0.2px; box-shadow:0 8px 32px rgba(13,13,13,0.15); }
+.btn-cta:hover { background:var(--green-dark); transform:translateY(-3px); box-shadow:0 20px 48px rgba(122,179,86,0.3); }
+.cta-note { margin-top:16px; font-size:12px; color:var(--gray-light); font-weight:500; }
+
+/* FOOTER */
+footer { background:var(--black); border-top:1px solid rgba(255,255,255,0.06); padding:32px 48px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+footer svg { height:22px; width:auto; filter:invert(1); opacity:0.4; }
+.footer-text { font-size:11px; color:rgba(255,255,255,0.2); font-weight:500; }
+.footer-link { font-size:11px; color:rgba(255,255,255,0.35); font-weight:600; text-decoration:none; transition:color 0.2s; letter-spacing:0.2px; }
+.footer-link:hover { color:var(--green); }
+.footer-sep { font-size:11px; color:rgba(255,255,255,0.12); }
+
+/* REVEAL */
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.d1{transition-delay:0.1s} .d2{transition-delay:0.2s} .d3{transition-delay:0.3s} .d4{transition-delay:0.4s}
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .intro-wrap{grid-template-columns:1fr;gap:40px}
+  .diag-grid{grid-template-columns:1fr}
+  .how-steps{grid-template-columns:repeat(2,1fr)}
+  .how-steps::before{display:none}
+  footer{padding:24px 20px}
+}
+@media(max-width:500px){ .how-steps{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+
+<svg style="display:none">
+  <symbol id="mam-logo" viewBox="0 0 743.9 150">
+    <polygon points="690.5 17.9 657.7 106.2 651.9 121.8 646.1 106.2 613.3 17.9 581.2 17.9 581.2 132.1 599.9 132.1 599.9 35.3 635.9 132.1 667.9 132.1 703.9 35.3 703.9 132.1 722.6 132.1 722.6 17.9 690.5 17.9"/>
+    <path d="M473,17.9l-45.4,114.2h20l19.6-49.3,6.3,15.9h43.3l13.3,33.4h20l-45.4-114.2h-31.6ZM467.1,82.7l21.6-54.4,21.6,54.4h-43.2Z"/>
+    <polygon points="364.2 17.9 325.6 121.8 287 17.9 254.9 17.9 254.9 132.1 273.7 132.1 273.7 35.3 309.7 132.1 341.6 132.1 377.6 35.3 377.6 132.1 396.3 132.1 396.3 17.9 364.2 17.9"/>
+    <path d="M92,61.9L46.9,18h-25.7v114.1h25.7l31.6-30.9v-26.2l6.9,6.7h0s51.6,50.3,51.6,50.3h25.7V18h-25.7l-45.1,43.9ZM40,112.6V37.4l38.5,37.6-38.5,37.6ZM144,112.6l-38.5-37.6,38.5-37.6v75.2Z"/>
+  </symbol>
+</svg>
+
+<!-- NAV -->
+<nav id="nav">
+  <svg viewBox="0 0 743.9 150" fill="#0d0d0d"><use href="#mam-logo"/></svg>
+  <a href="https://www.mambrand.com.br" class="nav-link">← Voltar ao site</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      MAM · Diagnósticos Estratégicos
+    </div>
+    <h1 class="hero-title">
+      Descubra o que sua
+      <em>marca precisa saber.</em>
+    </h1>
+    <p class="hero-sub">
+      Diagnósticos estratégicos desenvolvidos pela MAM para revelar a posição real da sua marca — e o que fazer para avançar com precisão.
+    </p>
+    <div class="hero-scroll">
+      <a href="#diagnosticos">
+        <div class="scroll-icon">↓</div>
+        Ver diagnósticos
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro-section">
+  <div class="intro-wrap">
+    <div class="reveal">
+      <div class="intro-eyebrow">Por que diagnosticar?</div>
+      <h2 class="intro-title">Marcas fortes não<br><em>crescem no escuro.</em></h2>
+      <p class="intro-text">
+        A maioria dos empreendedores investe em marketing, produto e equipe — mas continua no mesmo lugar. O problema raramente está onde você está olhando.
+        <br><br>
+        Os Diagnósticos MAM foram criados para revelar com precisão o que está freando sua marca — e entregar um mapa claro do que precisa mudar para avançar.
+      </p>
+    </div>
+    <div class="intro-stats">
+      <div class="intro-stat reveal d1">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Diagnósticos estratégicos disponíveis</div>
+      </div>
+      <div class="intro-stat reveal d2">
+        <div class="stat-value">7</div>
+        <div class="stat-label">Dimensões analisadas por diagnóstico</div>
+      </div>
+      <div class="intro-stat reveal d3">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Online · Resultado imediato · PDF incluído</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGNÓSTICOS -->
+<section class="diag-section" id="diagnosticos">
+  <div class="diag-wrap">
+    <div class="section-header">
+      <div class="section-eyebrow reveal">Escolha o seu diagnóstico</div>
+      <h2 class="section-title reveal">Cada diagnóstico revela<br><em>uma dimensão da sua marca.</em></h2>
+      <p class="section-sub reveal">Não sabe por onde começar? O Diagnóstico de Ciclo de Marca é o ponto de partida ideal — ele revela a posição geral antes de qualquer aprofundamento.</p>
+    </div>
+
+    <div class="diag-grid">
+
+      <!-- 01 CICLO DE MARCA -->
+      <a href="https://ciclodemarca.vercel.app" class="diag-card featured reveal" target="_blank">
+        <div class="card-glow"></div>
+        <div class="diag-num">Diagnóstico 01 · Ponto de partida recomendado</div>
+        <span class="diag-icon">🔄</span>
+        <div class="diag-name">Ciclo de<br>Marca</div>
+        <p class="diag-desc">Revela em qual fase do ciclo sua marca está — Introdução, Crescimento, Platô ou Declínio — e quais ações estratégicas são necessárias para avançar.</p>
+        <div class="diag-tags">
+          <span class="diag-tag">Percepção</span>
+          <span class="diag-tag">Competitividade</span>
+          <span class="diag-tag">Financeiro</span>
+          <span class="diag-tag">Branding</span>
+          <span class="diag-tag">Experiência</span>
+          <span class="diag-tag">Pessoas</span>
+          <span class="diag-tag">Visão</span>
+        </div>
+        <div class="diag-footer">
+          <span class="diag-cta">Começar diagnóstico</span>
+          <div class="diag-arrow">→</div>
+        </div>
+      </a>
+
+      <!-- 02 POSICIONAMENTO -->
+      <a href="https://ciclodemarca.vercel.app" class="diag-card reveal d1" target="_blank">
+        <div class="diag-num">Diagnóstico 02</div>
+        <span class="diag-icon">🎯</span>
+        <div class="diag-name">Posicionamento<br>de Marca</div>
+        <p class="diag-desc">Avalia como sua marca é percebida e diferenciada no mercado — e se o posicionamento atual sustenta o crescimento que você busca.</p>
+        <div class="diag-tags">
+          <span class="diag-tag">Diferenciação</span>
+          <span class="diag-tag">Percepção</span>
+          <span class="diag-tag">Proposta de valor</span>
+          <span class="diag-tag">Mercado</span>
+        </div>
+        <div class="diag-footer">
+          <span class="diag-cta">Começar diagnóstico</span>
+          <div class="diag-arrow">→</div>
+        </div>
+      </a>
+
+      <!-- 03 BRANDING -->
+      <a href="https://ciclodemarca.vercel.app" class="diag-card reveal d2" target="_blank">
+        <div class="diag-num">Diagnóstico 03</div>
+        <span class="diag-icon">✦</span>
+        <div class="diag-name">Branding</div>
+        <p class="diag-desc">Avalia a força, consistência e profundidade da identidade da sua marca — do visual ao verbal, do interno ao externo.</p>
+        <div class="diag-tags">
+          <span class="diag-tag">Identidade visual</span>
+          <span class="diag-tag">Tom de voz</span>
+          <span class="diag-tag">Consistência</span>
+          <span class="diag-tag">Cultura</span>
+        </div>
+        <div class="diag-footer">
+          <span class="diag-cta">Começar diagnóstico</span>
+          <div class="diag-arrow">→</div>
+        </div>
+      </a>
+
+      <!-- 04 REBRANDING -->
+      <a href="https://ciclodemarca.vercel.app" class="diag-card reveal d3" target="_blank">
+        <div class="diag-num">Diagnóstico 04</div>
+        <span class="diag-icon">🔁</span>
+        <div class="diag-name">Rebranding</div>
+        <p class="diag-desc">Avalia se a sua marca está pronta para uma mudança de posicionamento — e o que precisa ser transformado para que o rebranding gere impacto real.</p>
+        <div class="diag-tags">
+          <span class="diag-tag">Identidade atual</span>
+          <span class="diag-tag">Percepção</span>
+          <span class="diag-tag">Relevância</span>
+          <span class="diag-tag">Transição</span>
+        </div>
+        <div class="diag-footer">
+          <span class="diag-cta">Começar diagnóstico</span>
+          <div class="diag-arrow">→</div>
+        </div>
+      </a>
+
+      <!-- 05 TIME DE MARKETING -->
+      <a href="https://ciclodemarca.vercel.app" class="diag-card reveal d4" target="_blank">
+        <div class="diag-num">Diagnóstico 05</div>
+        <div style="display:flex;align-items:center;gap:28px;width:100%;margin-top:8px;">
+          <span class="diag-icon" style="font-size:36px;flex-shrink:0;">👥</span>
+          <div style="flex:1;min-width:0;">
+            <div class="diag-name" style="font-size:26px;">Time de Marketing</div>
+            <p class="diag-desc" style="margin-bottom:0;">Avalia a maturidade, estrutura e eficiência do seu time de marketing — e o que falta para ele entregar resultados consistentes.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-end;flex-shrink:0;">
+            <div class="diag-tags" style="justify-content:flex-end;">
+              <span class="diag-tag">Estratégia</span>
+              <span class="diag-tag">Execução</span>
+              <span class="diag-tag">Métricas</span>
+              <span class="diag-tag">Cultura</span>
+            </div>
+            <div class="diag-footer" style="border:none;padding:0;margin:0;">
+              <span class="diag-cta">Começar diagnóstico</span>
+              <div class="diag-arrow">→</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="how-section">
+  <div class="how-wrap">
+    <div class="section-header">
+      <div class="section-eyebrow reveal" style="color:var(--green-dark)">Como funciona</div>
+      <h2 class="section-title reveal" style="color:var(--white)">Do pagamento ao<br><em>relatório em minutos.</em></h2>
+      <p class="section-sub reveal" style="color:rgba(255,255,255,0.4)">Simples, rápido e com resultado imediato.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <div class="how-num">01</div>
+        <div class="how-title">Escolha o diagnóstico</div>
+        <div class="how-desc">Selecione o diagnóstico que melhor se encaixa no momento da sua marca.</div>
+      </div>
+      <div class="how-step reveal d1">
+        <div class="how-num">02</div>
+        <div class="how-title">Acesso imediato</div>
+        <div class="how-desc">Após o pagamento, você recebe acesso na hora para começar quando quiser.</div>
+      </div>
+      <div class="how-step reveal d2">
+        <div class="how-num">03</div>
+        <div class="how-title">Responda o diagnóstico</div>
+        <div class="how-desc">Perguntas calibradas sobre as dimensões estratégicas da sua marca.</div>
+      </div>
+      <div class="how-step reveal d3">
+        <div class="how-num">04</div>
+        <div class="how-title">Receba o relatório</div>
+        <div class="how-desc">Relatório completo com gráficos, análises e PDF personalizado para download.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <div class="cta-wrap">
+    <div class="section-eyebrow reveal">Por onde começar?</div>
+    <h2 class="cta-title reveal">Comece pelo<br><em>Ciclo de Marca.</em></h2>
+    <p class="cta-sub reveal">É o diagnóstico mais completo — e o ponto de partida ideal para entender a posição real da sua marca antes de qualquer outro investimento estratégico.</p>
+    <a href="https://ciclodemarca.vercel.app" class="btn-cta reveal" target="_blank">Começar agora →</a>
+    <p class="cta-note reveal">Resultado imediato · PDF incluído · Acesso liberado na hora</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <svg viewBox="0 0 743.9 150" fill="#fff"><use href="#mam-logo"/></svg>
+  <div style="display:flex;align-items:center;gap:28px;flex-wrap:wrap;">
+    <a href="https://www.mambrand.com.br" target="_blank" class="footer-link">mambrand.com.br</a>
+    <span class="footer-sep">·</span>
+    <a href="https://www.instagram.com/mambranding/" target="_blank" class="footer-link">@mambranding</a>
+    <span class="footer-sep">·</span>
+    <a href="https://www.linkedin.com/company/mambranding/" target="_blank" class="footer-link">LinkedIn</a>
+  </div>
+  <div class="footer-text">© 2026 MAM · Todos os direitos reservados</div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:0.1, rootMargin:'0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').style.boxShadow = window.scrollY > 50 ? '0 4px 32px rgba(0,0,0,0.08)' : 'none';
+});
+</script>
+</body>
+</html>
