@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acesso Liberado — Diagnóstico da Sua Marca · MAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --green: #c8e6b0;
+    --green-dark: #7ab356;
+    --green-light: #f0f7ea;
+    --border: #e4e4de;
+    --text-muted: #6b6b6b;
+    --bg: #ffffff;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--bg);
+    color: var(--black);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 24px 60px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(200,230,176,0.3) 0%, transparent 65%);
+    top: -200px; right: -200px;
+    pointer-events: none;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(200,230,176,0.15) 0%, transparent 65%);
+    bottom: -150px; left: -150px;
+    pointer-events: none;
+  }
+
+  .logo-wrap {
+    margin-bottom: 40px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .logo-wrap svg { height: 32px; width: auto; }
+
+  .card {
+    background: var(--black);
+    border-radius: 28px;
+    padding: 56px 52px;
+    max-width: 580px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.15);
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(200,230,176,0.1) 0%, transparent 65%);
+    top: -150px; right: -150px;
+    pointer-events: none;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(200,230,176,0.06) 0%, transparent 65%);
+    bottom: -80px; left: -80px;
+    pointer-events: none;
+  }
+
+  .success-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: rgba(200,230,176,0.15);
+    border: 2px solid rgba(200,230,176,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 28px;
+    position: relative;
+    font-size: 28px;
+    animation: pulse-green 2s infinite;
+  }
+
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,230,176,0.3); }
+    50% { box-shadow: 0 0 0 14px rgba(200,230,176,0); }
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(200,230,176,0.12);
+    border: 1px solid rgba(200,230,176,0.25);
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 7px 20px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .title em {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--green);
+  }
+
+  .desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.85;
+    max-width: 420px;
+    margin: 0 auto 36px;
+    font-weight: 400;
+    position: relative;
+  }
+
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 40px;
+    text-align: left;
+    position: relative;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 500;
+    padding: 13px 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+  }
+
+  .check-dot {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(200,230,176,0.15);
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .btn-main {
+    width: 100%;
+    background: var(--green);
+    color: var(--black);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    padding: 22px 40px;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: -0.3px;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(200,230,176,0.2);
+    text-decoration: none;
+    display: block;
+  }
+
+  .btn-main:hover {
+    background: #d4f0b8;
+    transform: translateY(-3px);
+    box-shadow: 0 20px 56px rgba(200,230,176,0.3);
+  }
+
+  .note {
+    margin-top: 16px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    font-weight: 500;
+    position: relative;
+  }
+
+  .tip {
+    max-width: 480px;
+    width: 100%;
+    margin-top: 24px;
+    padding: 18px 24px;
+    background: var(--green-light);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green-dark);
+    border-radius: 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 400;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .tip strong { color: var(--green-dark); }
+
+  .footer {
+    margin-top: 40px;
+    font-size: 11px;
+    color: #d0d0cc;
+    font-weight: 500;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .card { padding: 40px 24px; }
+    .title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<svg style="display:none">
+  <symbol id="mam-logo" viewBox="0 0 743.9 150">
+    <polygon points="690.5 17.9 657.7 106.2 651.9 121.8 646.1 106.2 613.3 17.9 581.2 17.9 581.2 132.1 599.9 132.1 599.9 35.3 635.9 132.1 667.9 132.1 703.9 35.3 703.9 132.1 722.6 132.1 722.6 17.9 690.5 17.9"/>
+    <path d="M473,17.9l-45.4,114.2h20l19.6-49.3,6.3,15.9h43.3l13.3,33.4h20l-45.4-114.2h-31.6ZM467.1,82.7l21.6-54.4,21.6,54.4h-43.2Z"/>
+    <polygon points="364.2 17.9 325.6 121.8 287 17.9 254.9 17.9 254.9 132.1 273.7 132.1 273.7 35.3 309.7 132.1 341.6 132.1 377.6 35.3 377.6 132.1 396.3 132.1 396.3 17.9 364.2 17.9"/>
+    <path d="M92,61.9L46.9,18h-25.7v114.1h25.7l31.6-30.9v-26.2l6.9,6.7h0s51.6,50.3,51.6,50.3h25.7V18h-25.7l-45.1,43.9ZM40,112.6V37.4l38.5,37.6-38.5,37.6ZM144,112.6l-38.5-37.6,38.5-37.6v75.2Z"/>
+  </symbol>
+</svg>
+
+<!-- LOGO -->
+<div class="logo-wrap">
+  <svg viewBox="0 0 743.9 150" fill="#0d0d0d"><use href="#mam-logo"/></svg>
+</div>
+
+<!-- CARD -->
+<div class="card">
+
+  <div class="success-icon">✓</div>
+
+  <div class="badge">Pagamento confirmado</div>
+
+  <h1 class="title">
+    Seu acesso está<br>
+    <em>liberado!</em>
+  </h1>
+
+  <p class="desc">
+    Parabéns pela decisão de investir no diagnóstico da sua marca. Você está a um clique de descobrir a posição real da sua marca no Ciclo de Marca.
+  </p>
+
+  <div class="checklist">
+    <div class="check-item">
+      <div class="check-dot">✓</div>
+      Separe entre 20 e 40 minutos sem interrupções
+    </div>
+    <div class="check-item">
+      <div class="check-dot">✓</div>
+      Responda sobre a realidade atual da sua marca
+    </div>
+    <div class="check-item">
+      <div class="check-dot">✓</div>
+      Seu progresso é salvo — pode pausar e retomar
+    </div>
+    <div class="check-item">
+      <div class="check-dot">📊</div>
+      Relatório completo com gráficos e PDF ao final
+    </div>
+  </div>
+
+  <a href="https://questionariociclodemarca.vercel.app" class="btn-main">
+    Começar meu Diagnóstico →
+  </a>
+
+  <div class="note">
+    Acesso imediato · Diagnóstico Sintético ou Analítico · PDF incluído
+  </div>
+
+</div>
+
+<!-- DICA -->
+<div class="tip">
+  <strong>💡 Dica importante:</strong> Guarde o link do seu diagnóstico nos favoritos. Caso precise pausar e retomar depois, o sistema salva automaticamente o seu progresso no mesmo dispositivo e navegador.
+</div>
+
+<!-- FOOTER -->
+<div class="footer">© 2026 MAM · Todos os direitos reservados</div>
+
+</body>
+</html>
